@@ -13,10 +13,6 @@ import MapKit
 
 class ViewController: UIViewController, MKAnnotation, MKMapViewDelegate {
 
-  var coordinate: CLLocationCoordinate2D {
-    return location!.coordinate
-  }
-
   @IBOutlet weak var mapView: MKMapView!
   var location: CLLocation?
 
@@ -53,12 +49,25 @@ class ViewController: UIViewController, MKAnnotation, MKMapViewDelegate {
 
     fetchLocationFromURL(url: url) {[weak self] location, error in
       guard let ws = self else { return }
+      if location == nil {
+        let alertController = UIAlertController(title: NSLocalizedString("Location coudn't be found", comment: ""),
+                                                message: NSLocalizedString("Your location is not in the database. It may be that you are connected to a Mobile Hotspot", comment: ""),
+                                                preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { _ in
+
+        }))
+        DispatchQueue.main.async {
+          self?.present(alertController, animated: true, completion: nil)
+        }
+        return
+      }
+
       ws.location = location
-      ws.mapView.addAnnotation(ws)
-      ws.mapView.setCenter(location!.coordinate, animated: true)
       let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
       let region = MKCoordinateRegion(center: location!.coordinate, span: span)
       DispatchQueue.main.async {
+        ws.mapView.addAnnotation(ws)
+        ws.mapView.setCenter(location!.coordinate, animated: true)
         ws.mapView.setRegion(region, animated: true)
       }
     }
@@ -100,12 +109,17 @@ class ViewController: UIViewController, MKAnnotation, MKMapViewDelegate {
       }.resume()
   }
 
+  // MARK:- Annotation Protocols
+
+  var coordinate: CLLocationCoordinate2D {
+    return location!.coordinate
+  }
+
   // MARK:- Map View Delegates
   public func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
     var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "LocationPin") as? MKPinAnnotationView
     if annotationView == nil {
       annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "LocationPin")
-      annotationView!.canShowCallout = true
       annotationView!.animatesDrop = true
     }
     return annotationView
