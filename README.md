@@ -14,4 +14,6 @@ Simple huh?
 The code is licensed under GPL. Yep, you guessed it. I pretty much don't want anyone to use this. This is a proof of concept code.
 
 ## Thoughts
-I'm not sure if this is a serious security/privacy hole. Apple can only prevent developers from getting the Mac Address of the phone and not that of the connected router, though I'm not sure on this. I'll raise a rdar and update the README with the link.
+I'm not sure if this is a serious security/privacy hole. Apple can only prevent developers from getting the Mac Address of the phone and not that of the connected router, though I'm not sure on this. 
+
+Radar submitted: (rdar://34052264)
