@@ -17,3 +17,4 @@ The code is licensed under GPL. Yep, you guessed it. I pretty much don't want an
 I'm not sure if this is a serious security/privacy hole. Apple can only prevent developers from getting the Mac Address of the phone and not that of the connected router, though I'm not sure on this. 
 
 [Radar](https://openradar.appspot.com/radar?id=6059040236896256) submitted: [rdar://34052264](rdar://34052264)
+Apple marked this Radar as duplicate of 24892407. This duplicate radar is not available in openradar.
